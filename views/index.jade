@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	h1 Jouer les sons
+	#container 
+		div 
+			input(type='button', value='Play', id='play')
+			input(type='range', min='0', max='100', value='80', id='volume')
+			br
+			input(type='button', value='osc', id='osc')
+			input(type='range', min='0', max='100', value='80', id='osc_vol')
+			input(type='range', min='20', max='3000', value='200', id='osc_freq')
+			select(id='osc_type')
+				option(value='0') sin
+				option(value='1') sqr
+				option(value='2') Saw
+				option(value='3') Tri
+
+			#keyboard

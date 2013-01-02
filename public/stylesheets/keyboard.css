@@ -1,0 +1,15 @@
+.notes {
+	float:left;
+	cursor:pointer;
+	height:100px;
+	width:40px;
+}
+.notes.white{
+	background-color:white;
+	border:1px solid black;
+}
+.notes.black{
+	background-color:black;
+	border:1px solid white;
+	width:20px;
+}
