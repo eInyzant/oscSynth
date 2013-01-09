@@ -9,6 +9,9 @@ function Oscillator (context){
 
 Oscillator.prototype.play = function(){
 	var that = this;
+	if(typeof(that.source) != 'undefined'){
+		that.stop();
+	}
 	this.createConnection(function(){
 		that.source.start(0);
 	});

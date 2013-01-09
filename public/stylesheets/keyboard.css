@@ -1,15 +1,29 @@
 .notes {
-	float:left;
 	cursor:pointer;
-	height:100px;
-	width:40px;
+	list-style: none;
 }
+.vertical.notes {
+	float:left;
+	height:100px;
+	width:20px;
+}
+.horizontal.notes {
+	list-style: none;
+	height:20px;
+	width:100px;
+}
+
 .notes.white{
 	background-color:white;
+	color:black;
 	border:1px solid black;
 }
 .notes.black{
 	background-color:black;
+	color:white;
 	border:1px solid white;
 	width:20px;
+}
+.keyboard_pitch.vertical {
+	float: left;
 }

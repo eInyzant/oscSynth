@@ -5,7 +5,7 @@ var bufferLoader;
 function init() {
 	context = new webkitAudioContext();
 	oscillator = new Oscillator(context);
-	keyboard = new Keyboard('keyboard');
+	keyboard = new Keyboard('keyboard', false);
 	keyboard.connect(oscillator);
 	bufferLoader = new BufferLoader(
 		context,
