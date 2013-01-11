@@ -1,10 +1,13 @@
-function Oscillator (context){
+function Oscillator (container_id, context){
+	this.container_id = container_id || 'oscillator1';
 	this.context = context || null;
 	this.data = {
-		gain: 100,
+		gain: 0.8,
 		frequence: 150,
 		type: 0
 	};
+
+	this.init();
 };
 
 Oscillator.prototype.play = function(){
@@ -32,9 +35,10 @@ Oscillator.prototype.createConnection = function(callback){
 	return this;
 }
 
-Oscillator.prototype.stop = function (){
+Oscillator.prototype.stop = function (time){
+	var time = time || 0;
 	if(typeof(this.source) != 'undefined'){
-		this.source.stop(0);
+		this.source.stop(time);
 		delete this.source;
 	}
 };
@@ -67,3 +71,19 @@ Oscillator.prototype.changeVolume = function (value){
 	}
 	this.data.gain = (value / 100);
 };
+
+Oscillator.prototype.init = function(){
+	var that = this;
+	jQuery('#' + this.container_id).on('click', '.osc', function(){
+		that.togglePlay();
+	});
+	jQuery('#' + this.container_id).on('change', '.osc_vol', function(){
+		that.changeVolume(jQuery(this).val());
+	});
+	jQuery('#' + this.container_id).on('change', '.osc_freq', function(){
+		that.changeFrequency(jQuery(this).val());
+	});
+	jQuery('#' + this.container_id).on('change', '.osc_type', function(){
+		that.changeType(jQuery(this).val());
+	});
+}

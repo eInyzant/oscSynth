@@ -4,27 +4,19 @@ var bufferLoader;
 
 function init() {
 	context = new webkitAudioContext();
-	oscillator = new Oscillator(context);
+	oscillator1 = new Oscillator('oscillator1', context);
+	oscillator2 = new Oscillator('oscillator2', context);
 	keyboard = new Keyboard('keyboard', false);
-	keyboard.connect(oscillator);
+	keyboard.addSource(oscillator1);
+	keyboard.addSource(oscillator2);
+	/*
 	bufferLoader = new BufferLoader(
 		context,
 		['../sounds/beat.mp3'],
 		finishedLoading
 	);
-	jQuery('#container').on('click', '#osc', function(){
-		oscillator.togglePlay();
-	});
-	jQuery('#container').on('change', '#osc_vol', function(){
-		oscillator.changeVolume(jQuery(this).val());
-	});
-	jQuery('#container').on('change', '#osc_freq', function(){
-		oscillator.changeFrequency(jQuery(this).val());
-	});
-	jQuery('#container').on('change', '#osc_type', function(){
-		oscillator.changeType(jQuery(this).val());
-	});
 	bufferLoader.load();
+	*/
 }
 
 function finishedLoading(bufferList) {
@@ -50,9 +42,5 @@ function finishedLoading(bufferList) {
 	jQuery('#container').on('change', '#volume', function(){
 		gain.gain.value = (jQuery(this).val() / 100);
 	});
-
-	// source2.connect(context.destination);
-
-	// source2.noteOn(0);
 }
 

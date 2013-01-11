@@ -1,29 +1,40 @@
 .notes {
 	cursor:pointer;
 	list-style: none;
+	border:1px solid black;
+	border-radius:0px 0px 5px 5px;
+	box-shadow: 0px 4px 7px -2px #000000;
 }
 .vertical.notes {
 	float:left;
 	height:100px;
-	width:20px;
+	width:25px;
 }
 .horizontal.notes {
 	list-style: none;
-	height:20px;
+	height:25px;
 	width:100px;
 }
 
 .notes.white{
 	background-color:white;
 	color:black;
-	border:1px solid black;
 }
 .notes.black{
 	background-color:black;
 	color:white;
-	border:1px solid white;
-	width:20px;
+	width:15px;
 }
 .keyboard_pitch.vertical {
 	float: left;
+}
+
+.notes.active_key {
+	box-shadow: 0px 4px 1px -2px #000000;
+}
+.notes.active_key.vertical {
+	height:98px;
+}
+.notes.active_key.horizontal {
+	width:98px;
 }

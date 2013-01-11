@@ -1,7 +1,7 @@
 function Keyboard (container_id, horizontal){
 	this.horizontal = horizontal || false;
 	this.octaveStart = 0;
-	this.nbOctave = 1;
+	this.nbOctave = 0;
 	this.pitch = 0;
 	this.noteSchema = {
 		notes : [
@@ -21,6 +21,7 @@ function Keyboard (container_id, horizontal){
 	}
 	this.keypressed = [];
 	this.container_id = container_id || 'keyboard';
+	this.sources = [];
 }
 
 Keyboard.prototype.display = function(){
@@ -76,29 +77,60 @@ Keyboard.prototype.changePitch = function(value){
 	return this;
 }
 
-Keyboard.prototype.connect = function(source){
+Keyboard.prototype.addSource = function(source){
+	this.sources[source.container_id] = source;
+	this.connect();
+}
+
+Keyboard.prototype.connect = function(){
 	this.display();
 	var that = this;
-	that.source = source;
 	jQuery('#' + this.container_id).on('mousedown', '.notes', function(){
+		jQuery('.notes').removeClass('active_key');
+		jQuery(this).addClass('active_key');
 		var noteFreq = (parseFloat(jQuery(this).attr('id').replace('note_', '')) + parseFloat(that.pitch));
-		that.source.changeFrequency(noteFreq);
-		that.source.play();
+		for(var id in that.sources){
+			that.sources[id].changeFrequency(noteFreq);
+			that.sources[id].play();
+		}
+		
 	});
 	jQuery('#' + this.container_id).on('mouseup', '.notes', function(){
-		that.source.stop();
+		jQuery('.notes').removeClass('active_key');
+		for(var id in that.sources){
+			that.sources[id].stop();
+		}
 	});
 
 	jQuery('#' + this.container_id).on('mouseleave', '.notes', function(){
-		that.source.stop();
+		jQuery('.notes').removeClass('active_key');
+		for(var id in that.sources){
+			that.sources[id].stop();
+		}
 	});
 	jQuery('#' + this.container_id).on('change', '.keyboard_pitch', function(){
 		var pitch = jQuery(this).val();
 		that.changePitch(pitch);
+		if(jQuery('.active_key').length > 0){
+			var noteFreq = (parseFloat(jQuery('.active_key').attr('id').replace('note_', '')) + parseFloat(that.pitch));
+			for(var id in that.sources){
+				if(typeof(that.sources[id]) != 'undefined'){
+					that.sources[id].changeFrequency(noteFreq);
+				}
+			}
+		}
 	});
 	jQuery('#' + this.container_id).on('mouseup', '.keyboard_pitch', function(){
-		jQuery(this).animate({value:0}, 2000);
+		jQuery(this).animate({value:0}, 300);
 		that.changePitch(0);
+		if(jQuery('.active_key').length > 0){
+			var noteFreq = (parseFloat(jQuery('.active_key').attr('id').replace('note_', '')) + parseFloat(that.pitch));
+			for(var id in that.sources){
+				if(typeof(that.sources[id]) != 'undefined'){
+					that.sources[id].changeFrequency(noteFreq);
+				}
+			}
+		}
 	});
 	jQuery(document).keydown(function(event){
 		var keyPressed = event.which;
@@ -107,20 +139,26 @@ Keyboard.prototype.connect = function(source){
 		}
 		if(jQuery('.keycode_' + keyPressed).length > 0 && that.keypressed[keyPressed] == null){
 			that.keypressed[keyPressed] = true;
+			jQuery('.notes').removeClass('active_key');
+			jQuery('.keycode_' + keyPressed).addClass('active_key');
 			var noteFreq = (parseFloat(jQuery('.keycode_' + keyPressed).attr('id').replace('note_', '')) + parseFloat(that.pitch));
-			that.source.changeFrequency(noteFreq);
-			that.source.play();
+			for(var id in that.sources){
+				that.sources[id].changeFrequency(noteFreq);
+				that.sources[id].play();
+			}
 		}
 	});
 	jQuery(document).keyup(function(event){
 		delete that.keypressed[event.which];
 		var isPressed = false;
-		console.log(that.keypressed);
 		for(key in that.keypressed){
 			isPressed = true;
 		}
 		if(!isPressed){
-			that.source.stop();
+			jQuery('.notes').removeClass('active_key');
+			for(var id in that.sources){
+				that.sources[id].stop();
+			}
 		}
 	});
 	return this;

@@ -7,4 +7,5 @@ a {
 }
 input[type=range].vertical {
   -webkit-appearance: slider-vertical;
+  width: 30px;
 }
