@@ -29,14 +29,14 @@ Keyboard.prototype.display = function(){
 	var currentFreq = 0;
 	var coef = 1;
 	if(this.horizontal){
-		html = '<input type="range" class="keyboard_pitch" min="-100" max="100" step="1" value="0" />';
+		jQuery('#' + this.container_id + ' .keyboard_pitch').addClass('horizontal');
 		html += this.getHorizontalKeyboard();
 	}else{
-		html = '<input type="range" class="keyboard_pitch vertical" min="-100" max="100" step="1" value="0" />';
+		jQuery('#' + this.container_id + ' .keyboard_pitch').addClass('vertical');
 		html += this.getVerticalKeyboard();
 	}
 
-	jQuery('#' + this.container_id).html(html);
+	jQuery('#' + this.container_id + ' .keyboard_keys').html(html);
 };
 
 Keyboard.prototype.getHorizontalKeyboard = function(){

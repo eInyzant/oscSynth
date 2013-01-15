@@ -1,9 +1,12 @@
 function Enveloppe(container_id){
-	this.data.container_id = container_id || 'enveloppe';
-	this.data.attack = 1;
-	this.data.decay = 1;
-	this.data.sustain = 1;
-	this.data.release = 1;
+	this.data = {
+		container_id: (container_id || 'enveloppe'),
+		attack: 1,
+		decay: 1,
+		sustain: 1,
+		release: 1,
+	};
+	this.init();
 }
 
 
@@ -23,23 +26,25 @@ Enveloppe.prototype.changeRelease = function(value){
 	this.data.release = value;
 }
 
-Enveloppe.prototype.connect = function(){
+Enveloppe.prototype.init = function(){
 	var that = this;
+	jQuery('document').ready(function(){
+		jQuery('#' + that.data.container_id).on('change', '.enveloppe_attack', function(){
+			var attack = jQuery(this).val();
+			that.changeAttack(attack);
 
-	jQuery('#' + that.container_id).on('change', '.enveloppe_attack', function(){
-		var attack = jQuery(this).val();
-		that.changeAttack(attack);
-	});
-	jQuery('#' + that.container_id).on('change', '.enveloppe_decay', function(){
-		var decay = jQuery(this).val();
-		that.changeDecay(decay);
-	});
-	jQuery('#' + that.container_id).on('change', '.enveloppe_sustain', function(){
-		var sustain = jQuery(this).val();
-		that.changeSustain(sustain);
-	});
-	jQuery('#' + that.container_id).on('change', '.enveloppe_release', function(){
-		var release = jQuery(this).val();
-		that.changeRelease(release);
+		});
+		jQuery('#' + that.data.container_id).on('change', '.enveloppe_decay', function(){
+			var decay = jQuery(this).val();
+			that.changeDecay(decay);
+		});
+		jQuery('#' + that.data.container_id).on('change', '.enveloppe_sustain', function(){
+			var sustain = jQuery(this).val();
+			that.changeSustain(sustain);
+		});
+		jQuery('#' + that.data.container_id).on('change', '.enveloppe_release', function(){
+			var release = jQuery(this).val();
+			that.changeRelease(release);
+		});
 	});
 }

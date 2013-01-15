@@ -7,29 +7,40 @@ block content
 			<!-- input(type='button', value='Play', id='play')
 			input(type='range', min='0', max='100', value='80', id='volume')
 			br--
-			div#oscillator1
-				input(type='button', value='osc1', class='osc')
-				input(type='range', min='0', max='100', value='80', class='osc_vol')
-				input(type='range', min='20', max='3000', value='200', class='osc_freq')
-				select(class='osc_type')
-					option(value='0') sin
-					option(value='1') sqr
-					option(value='2') Saw
-					option(value='3') Tri
 
-			div#oscillator2
-				input(type='button', value='osc2', class='osc')
-				input(type='range', min='0', max='100', value='80', class='osc_vol')
-				input(type='range', min='20', max='3000', value='200', class='osc_freq')
-				select(class='osc_type')
-					option(value='0') sin
-					option(value='1') sqr
-					option(value='2') Saw
-					option(value='3') Tri
+			div.instrument
+				div#oscillator1
+					input(type='button', value='osc1', class='osc')
+					input(type='range', min='0', max='100', value='80', class='osc_vol')
+					input(type='range', min='20', max='3000', value='200', class='osc_freq')
+					select(class='osc_type')
+						option(value='0') sin
+						option(value='1') sqr
+						option(value='2') Saw
+						option(value='3') Tri
+				#enveloppe1
+					input(type='range', value='0.1', min='0', max='20', step='0.1', class='bars enveloppe_attack vertical')
+					input(type='range', value='1', min='0', max='10', step='0.1', class='bars enveloppe_decay vertical')
+					input(type='range', value='0.5', min='0', max='1', step='0.1', class='bars enveloppe_sustain vertical')
+					input(type='range', value='2', min='0', max='10', step='0.1', class='bars enveloppe_release vertical')
 
-			#enveloppe
-				input(type='range', min='0', max='1000', value='1', id='enveloppe_attack', class='vertical')
-				input(type='range', min='0', max='1000', value='1', id='enveloppe_decay', class='vertical')
-				input(type='range', min='0', max='1000', value='1', id='enveloppe_sustain', class='vertical')
-				input(type='range', min='0', max='1000', value='10', id='enveloppe_release', class='vertical')
+			div.instrument
+				div#oscillator2
+					input(type='button', value='osc2', class='osc')
+					input(type='range', min='0', max='100', value='80', class='osc_vol')
+					input(type='range', min='20', max='3000', value='200', class='osc_freq')
+					select(class='osc_type')
+						option(value='0') sin
+						option(value='1') sqr
+						option(value='2') Saw
+						option(value='3') Tri
+				#enveloppe2
+					input(type='range', value='0.1', min='0', max='20', step='0.1', class='bars enveloppe_attack vertical')
+					input(type='range', value='1', min='0', max='10', step='0.1', class='bars enveloppe_decay vertical')
+					input(type='range', value='0.5', min='0', max='1', step='0.1', class='bars enveloppe_sustain vertical')
+					input(type='range', value='2', min='0', max='10', step='0.1', class='bars enveloppe_release vertical')
+
+
 			#keyboard
+				input(type='range', class='keyboard_pitch', min='-200', max='200', step='1', value='0')
+				div.keyboard_keys

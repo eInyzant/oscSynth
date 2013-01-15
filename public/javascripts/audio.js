@@ -4,11 +4,18 @@ var bufferLoader;
 
 function init() {
 	context = new webkitAudioContext();
-	oscillator1 = new Oscillator('oscillator1', context);
-	oscillator2 = new Oscillator('oscillator2', context);
 	keyboard = new Keyboard('keyboard', false);
+
+	oscillator1 = new Oscillator('oscillator1', context);
+	enveloppe1 = new Enveloppe('enveloppe1');
+	oscillator1.setEnveloppe(enveloppe1);
 	keyboard.addSource(oscillator1);
+
+	oscillator2 = new Oscillator('oscillator2', context);
+	enveloppe2 = new Enveloppe('enveloppe2');
+	oscillator2.setEnveloppe(enveloppe1);
 	keyboard.addSource(oscillator2);
+
 	/*
 	bufferLoader = new BufferLoader(
 		context,
