@@ -10,6 +10,7 @@ function Oscillator (container_id, context){
 		sustain: 1,
 		release: 0
 	};
+	this.SimpleCurves = new SimpleCurves();
 
 	this.init();
 };
@@ -31,32 +32,19 @@ Oscillator.prototype.createConnection = function(callback){
 
 Oscillator.prototype.play = function(){
 	var that = this;
-	if(typeof(that.source) != 'undefined'){
-		that.stop();
+	if(typeof(this.source) != 'undefined'){
+		this.stop();
 	}
 	this.createConnection(function(){
 		that.source.start(0);
 
 		var startTime = parseFloat(that.source.context.currentTime);
-		
-
 		var curveLength = parseFloat(that.source.context.sampleRate);
-		var curveAttack = new Float32Array(curveLength);
-		var coefAttack = parseFloat(that.data.gain / (curveLength - 1));
-		var origAttack = parseFloat(0 - coefAttack);
-		for (var i = 0; i < curveLength; ++i){
-		    curveAttack[i] = (coefAttack * i) + origAttack;
-		}
+		
+		var curveAttack = that.SimpleCurves.getCurve({'x':0, 'y':0}, {'x':curveLength, 'y':that.data.gain});
 		that.gain.gain.setValueCurveAtTime(curveAttack, startTime, that.getAttack());
 
-
-		var curveSustain = new Float32Array(curveLength);
-		var finalSustain = that.data.gain * that.getSustain();
-		var coefSustain = parseFloat((finalSustain - that.data.gain) / (curveLength - 1));
-		var origSustain = parseFloat(that.data.gain - coefSustain);
-		for (var i = 0; i < curveLength; ++i){
-		    curveSustain[i] = (coefSustain * i) + origSustain;
-		}
+		var curveSustain = that.SimpleCurves.getCurve({'x':0, 'y':parseFloat(that.data.gain)}, {'x':curveLength, 'y':parseFloat(that.data.gain * that.getSustain())});
 		that.gain.gain.setValueCurveAtTime(curveSustain, parseFloat(startTime + that.getAttack()), that.getDecay());
 	});
 };
@@ -65,14 +53,8 @@ Oscillator.prototype.stop = function (time){
 	var time = time || 0;
 	if(typeof(this.source) != 'undefined'){
 		var curveLength = parseFloat(this.source.context.sampleRate);
-		var curveSustain = new Float32Array(curveLength);
-		var coef =  (0 - this.gain.gain.value) / (curveLength - 1);
-		var orig = this.gain.gain.value - (coef * 1);
-
-		for (var i = 0; i < curveLength; ++i)
-		    curveSustain[i] = (coef * i) + orig; 
-
-		this.gain.gain.setValueCurveAtTime(curveSustain, parseFloat(this.source.context.currentTime), this.getRelease());
+		var curveRelease = this.SimpleCurves.getCurve({'x':0, 'y':this.gain.gain.value}, {'x':curveLength, 'y': 0});
+		this.gain.gain.setValueCurveAtTime(curveRelease, parseFloat(this.source.context.currentTime), this.getRelease());
 		this.source.stop(parseFloat(this.source.context.currentTime + this.getRelease()));
 		delete this.source;
 	}
