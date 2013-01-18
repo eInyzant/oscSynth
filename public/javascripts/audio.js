@@ -11,11 +11,12 @@ function init() {
 	oscillator1.setEnveloppe(enveloppe1);
 	keyboard.addSource(oscillator1);
 
+/*
 	oscillator2 = new Oscillator('oscillator2', context);
 	enveloppe2 = new Enveloppe('enveloppe2');
 	oscillator2.setEnveloppe(enveloppe1);
 	keyboard.addSource(oscillator2);
-
+*/
 	/*
 	bufferLoader = new BufferLoader(
 		context,
